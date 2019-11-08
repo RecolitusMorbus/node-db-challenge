@@ -8,7 +8,6 @@ exports.up = function(knex) {
         .unique();
       tbl
         .text('description')
-        .notNullable()
         .unique();
       tbl
         .boolean('completed')
@@ -21,15 +20,18 @@ exports.up = function(knex) {
         .notNullable()
         .unique();
       tbl
-        .text('instructions')
+        .text('description')
         .notNullable()
+        .unique();
+      tbl
+        .text('notes')
         .unique();
       tbl
         .integer('project_id')
         .unsigned()
         .references('id')
         .inTable('projects')
-        .onDelete('RESTRICT')
+        .onDelete('CASCADE')
         .onUpdate('CASCADE')
         .notNullable()
     })
