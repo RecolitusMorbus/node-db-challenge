@@ -1,9 +1,8 @@
 const express = require('express');
 const Projects = require('./project-models.js');
+db = require('../data/db-config.js');
 
 const router = express.Router();
-
-router.use(express.json());
 
 router.get('/', (req, res) => {
   Projects.get()
@@ -16,7 +15,9 @@ router.get('/', (req, res) => {
 });
 
 router.get('/:id', (req, res) => {
-  Projects.getProject()
+  const { id } = req.params;
+  
+  Projects.getProject(id)
     .then(project => {
       if(project) {
         res.status(200).json(project)
@@ -32,7 +33,7 @@ router.get('/:id', (req, res) => {
 router.get('/:id/tasks', (req, res) => {
   const { id } = req.params;
 
-  Recipes.getTasks(id)
+  Projects.getTasks(id)
     .then(tasks => {
       if(tasks.length) {
         res.status(200).json(tasks);
@@ -48,9 +49,9 @@ router.get('/:id/tasks', (req, res) => {
 router.post('/', (req, res) => {
   const newProject = req.body;
 
-  Recipes.add(newProject)
+  Projects.insert(newProject)
     .then(project => {
-      res.status(201).json(project);
+      res.status(202).json(project);
     })
     .catch(err => {
       res.status(500).json({ err: 'An error prevented the project from being added.' });
@@ -61,7 +62,7 @@ router.put('/:id', (req, res) => {
   const { id } = req.params;
   const changes = req.body;
 
-  Recipes.getProject(id)
+  Projects.getProject(id)
     .then(project => {
       if(project) {
         Projects.update(changes, id)
@@ -83,7 +84,7 @@ router.put('/:id', (req, res) => {
 router.delete('/:id', (req, res) => {
   const { id } = req.params;
 
-  Recipes.remove(id)
+  Projects.remove(id)
     .then(project => {
       if(project) {
         Projects.remove(id)

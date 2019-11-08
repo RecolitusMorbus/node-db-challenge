@@ -22,7 +22,7 @@ function getProject(id) {
 
 function getTasks(id) {
   return db('projects')
-    .join('tasks', 'projects.id', 'tasks.project_id')
+    .join('tasks', 'projects.id', '=', 'tasks.project_id')
     .where('project_id', id)
     .select('task');
 };
