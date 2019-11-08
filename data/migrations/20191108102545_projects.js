@@ -27,6 +27,9 @@ exports.up = function(knex) {
         .text('notes')
         .unique();
       tbl
+        .boolean('completed')
+        .defaultTo(false);
+      tbl
         .integer('project_id')
         .unsigned()
         .references('id')
