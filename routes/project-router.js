@@ -46,6 +46,22 @@ router.get('/:id/tasks', (req, res) => {
     });
 });
 
+router.get('/:id/resources', (req, res) => {
+  const { id } = req.params;
+
+  Projects.getResources(id)
+    .then(resources => {
+      if(resources.length) {
+        res.status(200).json(resources);
+      } else {
+        res.status(404).json({ message: 'The resources could not be found.' });
+      };
+    })
+    .catch(err => {
+      res.status(500).json({ err: 'An error prevented the project\'s resources from retrieval.' });
+    });
+});
+
 router.post('/', (req, res) => {
   const newProject = req.body;
 

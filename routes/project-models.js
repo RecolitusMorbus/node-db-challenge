@@ -4,7 +4,7 @@ module.exports = {
   get,
   getProject,
   getTasks,
-  // getResources,
+  getResources,
   insert,
   update,
   remove
@@ -22,15 +22,16 @@ function getProject(id) {
 
 function getTasks(id) {
   return db('projects')
-    .join('tasks', 'projects.id', '=', 'tasks.project_id')
+    .join('tasks', 'projects.id', 'tasks.project_id')
     .where('project_id', id)
-    .select('task');
+    .select('task_name', 'tasks.description', 'notes');
 };
 
 function getResources(id) {
   return db('projects')
-    .from('resources')
-    .select('resources.*', id);
+    .join('resources', 'projects.id', 'resources.project_id')
+    .where('project_id', id)
+    .select('client_name', 'resources.description');
 };
 
 async function insert(project) {

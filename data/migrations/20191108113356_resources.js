@@ -9,6 +9,14 @@ exports.up = function(knex) {
       tbl
         .text('description')
         .unsigned();
+      tbl
+        .integer('project_id')
+        .unsigned()
+        .references('id')
+        .inTable('projects')
+        .onDelete('CASCADE')
+        .onUpdate('CASCADE')
+        .notNullable();
     })
     .createTable('project_resources', tbl => {
       tbl.increments()
